@@ -21,4 +21,4 @@ Bosch Sensortec BMP388 was selected without any experience with this sensor. Acc
 ### Documentation
 
 * [Hardware Repository](https://github.com/irukard/osfet-hardware)
-* [License](LICENSE) - The TAPR Open Hardware License
+* [License](LICENSE) - GPL v3
