@@ -1,8 +1,13 @@
 #ifndef OSFET_CONFIG_H
 #define OSFET_CONFIG_H
 
-#define SERIAL_BAUD_RATE        115200
+// 0 - NoDebug
+// 1 - Only Errors
+// 2 - All
 
+#define DEBUG_LEVEL             1
+
+#define SERIAL_BAUD_RATE        115200
 
 // I2C Pins mapping
 #define I2C_SDA                 D3
@@ -30,5 +35,10 @@
 #define SHT3X_READ_RETRY        3
 #define BMP388_READ_RETRY       3
 #define SPS30_READ_RETRY        3
+
+// Median array size
+#define SHT3X_MEDIAN_ARRAY      10
+#define BMP388_MEDIAN_ARRAY     10
+#define SPS30_MEDIAN_ARRAY      10
 
 #endif // OSFET_CONFIG_H

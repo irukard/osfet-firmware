@@ -5,15 +5,15 @@
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 ClosedCube_SHT31D sht3xIn;
-double valuesSht3xIn_T[10];
+double valuesSht3xIn_T[SHT3X_MEDIAN_ARRAY];
 unsigned int indexSht3xIn_T = 0;
-double valuesSht3xIn_H[10];
+double valuesSht3xIn_H[SHT3X_MEDIAN_ARRAY];
 unsigned int indexSht3xIn_H = 0;
 
 ClosedCube_SHT31D sht3xOut;
-double valuesSht3xOut_T[10];
+double valuesSht3xOut_T[SHT3X_MEDIAN_ARRAY];
 unsigned int indexSht3xOut_T = 0;
-double valuesSht3xOut_H[10];
+double valuesSht3xOut_H[SHT3X_MEDIAN_ARRAY];
 unsigned int indexSht3xOut_H = 0;
 
 unsigned long lastMeasurementTimeSht3x = 0;
@@ -25,10 +25,10 @@ unsigned long lastMeasurementTimeSht3x = 0;
 bool initSht3xIn(){
     sht3xIn.begin(IN_I2C_ADDR_SHT3X);
     if (sht3xIn.periodicStart(SHT3XD_REPEATABILITY_HIGH, SHT3XD_FREQUENCY_1HZ) == SHT3XD_NO_ERROR) {
-        Serial.println("[ OK ] SHT3x IN: Periodic mode started");
+        debug("[ OK ] SHT3x IN: Periodic mode started", 2);
         return true;
     } else {
-        Serial.println("[ ER ] SHT3x IN: Cannot start periodic mode");
+        debug("[ ER ] SHT3x IN: Cannot start periodic mode", 1);
         return false;
     }
 }
@@ -40,10 +40,11 @@ bool initSht3xIn(){
 bool initSht3xOut(){
     sht3xOut.begin(OUT_I2C_ADDR_SHT3X);
     if (sht3xOut.periodicStart(SHT3XD_REPEATABILITY_HIGH, SHT3XD_FREQUENCY_1HZ) == SHT3XD_NO_ERROR) {
-        Serial.println("[ OK ] SHT3x OUT: Periodic mode started");
+        debug("[ OK ] SHT3x OUT: Periodic mode started", 2);
         return true;
     } else {
-        Serial.println("[ ER ] SHT3x OUT: Cannot start periodic mode");
+        debug("[ ER ] SHT3x OUT: Cannot start periodic mode", 1);
+
         return false;
     }
 }
@@ -55,11 +56,12 @@ bool initSht3xOut(){
 bool readSht3xIn(){
     SHT31D result = sht3xIn.periodicFetchData();
     if (result.error == SHT3XD_NO_ERROR) {
-        valuesSht3xIn_T[(indexSht3xIn_T++ % 10)] = result.t;
-        valuesSht3xIn_H[(indexSht3xIn_H++ % 10)] = result.rh;
+        valuesSht3xIn_T[(indexSht3xIn_T++ % SHT3X_MEDIAN_ARRAY)] = result.t;
+        valuesSht3xIn_H[(indexSht3xIn_H++ % SHT3X_MEDIAN_ARRAY)] = result.rh;
+        debug("[ OK ] SHT3x IN: Values T & H fetched from sensor", 2);
         return true;
     } else {
-        Serial.println("[ ER ] SHT3x IN: Cannot read values");
+        debug("[ ER ] SHT3x IN: Cannot read values", 1);
         return false;
     }
 }
@@ -71,11 +73,12 @@ bool readSht3xIn(){
 bool readSht3xOut(){
     SHT31D result = sht3xOut.periodicFetchData();
     if (result.error == SHT3XD_NO_ERROR) {
-        valuesSht3xOut_T[(indexSht3xOut_T++ % 10)] = result.t;
-        valuesSht3xOut_H[(indexSht3xOut_H++ % 10)] = result.rh;
+        valuesSht3xOut_T[(indexSht3xOut_T++ % SHT3X_MEDIAN_ARRAY)] = result.t;
+        valuesSht3xOut_H[(indexSht3xOut_H++ % SHT3X_MEDIAN_ARRAY)] = result.rh;
+        debug("[ OK ] SHT3x OUT: Values T & H fetched from sensor", 2);
         return true;
     } else {
-        Serial.println("[ ER ] SHT3x OUT: Cannot read values");
+        debug("[ ER ] SHT3x OUT: Cannot read values", 1);
         return false;
     }
 }

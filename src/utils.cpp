@@ -45,8 +45,7 @@ void writeCSV() {
         Serial.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
         // CSV Values Header
         
-        //Serial.print("TIMESTAMP;");
-        Serial.print("MILLIS;");
+        Serial.print("TIMESTAMP;");
         Serial.print("IN_SHT_T;");
         Serial.print("IN_SHT_H;");
         Serial.print("OUT_SHT_T;");
@@ -56,20 +55,17 @@ void writeCSV() {
         displayHeadersCSV = false;
     }
 
-    // Serial.print("2020-03-28 14:50:51;");
-    Serial.print(millis()); Serial.print(";");
-    Serial.print(medianFromArray(valuesSht3xIn_T, 10)); Serial.print(";");
-    Serial.print(medianFromArray(valuesSht3xIn_H, 10)); Serial.print(";");
-    Serial.print(medianFromArray(valuesSht3xOut_T, 10)); Serial.print(";");
-    Serial.print(medianFromArray(valuesSht3xOut_H, 10)); Serial.print(";");
+    Serial.print(currentTimeStamp());                                       Serial.print(";");
+    Serial.print(medianFromArray(valuesSht3xIn_T, SHT3X_MEDIAN_ARRAY));     Serial.print(";");
+    Serial.print(medianFromArray(valuesSht3xIn_H, SHT3X_MEDIAN_ARRAY));     Serial.print(";");
+    Serial.print(medianFromArray(valuesSht3xOut_T, SHT3X_MEDIAN_ARRAY));    Serial.print(";");
+    Serial.print(medianFromArray(valuesSht3xOut_H, SHT3X_MEDIAN_ARRAY));    Serial.print(";");
     Serial.println();
 }
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃ Schedule CSV Write on Serial Console             ┃
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-
-
 
 void scheduleWriteCSV() {
     if (millis() - lastWriteTimeCSV < SERIAL_WRITE_INTERVAL) {
@@ -79,4 +75,78 @@ void scheduleWriteCSV() {
     writeCSV();
 
     lastWriteTimeCSV = millis();
+}
+
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃ Timestamp with milisecond precision              ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+String currentTimeStamp() {
+    String tmp = "";
+    unsigned dt = 0;
+    unsigned long t = millis();
+
+    if ((dt = t / (60 * 60 * 1000)) > 0)  {
+        t = t - dt * 60 * 60 * 1000;
+
+        if (dt < 10) {
+            tmp += String("0"); // hours - leading zero
+        }
+
+        tmp += String(dt) + String(":"); // hours
+    } else {
+        tmp += String("00:"); // hours
+    }
+
+    if ((dt = t / (60 * 1000)) > 0) {
+        t = t - dt * 60 * 1000;
+
+        if (dt < 10) {
+            tmp += String("0"); // minutes - leading zero
+        }
+
+        tmp += String(dt) + String(":"); // minutes
+
+    } else {
+        tmp += String("00:"); // minutes
+    }
+
+    if ((dt = t / (1000)) > 0) {
+        t = t - dt * 1000;
+
+        if (dt < 10) {
+            tmp += String("0"); // seconds - leading zero
+        }
+
+        tmp += String(dt) + String(","); // seconds
+
+    } else {
+        tmp += String("00,"); // seconds
+    }
+
+    if (t < 10) {
+        tmp += String("0"); // miliseconds - leading zero
+    }
+
+    if (t < 100) {
+        tmp += String("0"); // miliseconds - leading zero
+    }
+
+    tmp += String(t); // miliseconds
+
+    return tmp;    
+}
+
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃ Debug output                                     ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+void debug(const String& message, const int level) {
+
+    if (level <= DEBUG_LEVEL) {
+        String tmp = "";
+        tmp += currentTimeStamp() + String(": ") + message;
+        Serial.println(tmp);
+    }
+
 }
