@@ -5,11 +5,18 @@
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 ClosedCube_SHT31D sht3xIn;
-double lastValueSht3xIn_T;
-double lastValueSht3xIn_H;
+double valuesSht3xIn_T[10];
+unsigned int indexSht3xIn_T = 0;
+double valuesSht3xIn_H[10];
+unsigned int indexSht3xIn_H = 0;
+
 ClosedCube_SHT31D sht3xOut;
-double lastValueSht3xOut_T;
-double lastValueSht3xOut_H;
+double valuesSht3xOut_T[10];
+unsigned int indexSht3xOut_T = 0;
+double valuesSht3xOut_H[10];
+unsigned int indexSht3xOut_H = 0;
+
+unsigned long lastMeasurementTimeSht3x = 0;
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃ Init SHT3x in contaminated chamber (INLET)       ┃
@@ -48,8 +55,8 @@ bool initSht3xOut(){
 bool readSht3xIn(){
     SHT31D result = sht3xIn.periodicFetchData();
     if (result.error == SHT3XD_NO_ERROR) {
-        lastValueSht3xIn_T = result.t;
-        lastValueSht3xIn_H = result.rh;
+        valuesSht3xIn_T[(indexSht3xIn_T++ % 10)] = result.t;
+        valuesSht3xIn_H[(indexSht3xIn_H++ % 10)] = result.rh;
         return true;
     } else {
         Serial.println("[ ER ] SHT3x IN: Cannot read values");
@@ -64,11 +71,35 @@ bool readSht3xIn(){
 bool readSht3xOut(){
     SHT31D result = sht3xOut.periodicFetchData();
     if (result.error == SHT3XD_NO_ERROR) {
-        lastValueSht3xOut_T = result.t;
-        lastValueSht3xOut_H = result.rh;
+        valuesSht3xOut_T[(indexSht3xOut_T++ % 10)] = result.t;
+        valuesSht3xOut_H[(indexSht3xOut_H++ % 10)] = result.rh;
         return true;
     } else {
         Serial.println("[ ER ] SHT3x OUT: Cannot read values");
         return false;
     }
+}
+
+// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+// ┃ Schedule SHT3x Reads                             ┃
+// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+void scheduleReadSht3x() {
+
+    if (millis() - lastMeasurementTimeSht3x < SHT3X_READ_INTERVAL) {
+        return;
+    }
+    
+    for (int i=0; i < SHT3X_READ_RETRY; i++) {
+        if (readSht3xIn()) {
+            break;
+        }
+    }
+    for (int i=0; i < SHT3X_READ_RETRY; i++) {
+        if (readSht3xOut()) {
+            break;
+        }
+    }
+
+    lastMeasurementTimeSht3x = millis();
 }

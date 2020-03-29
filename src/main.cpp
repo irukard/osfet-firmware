@@ -2,6 +2,7 @@
 #include <Wire.h>
 
 #include "config.h"
+#include "utils.h"
 #include "sensors/sht3x.h"
 
 // #include <SoftwareSerial.h>
@@ -38,19 +39,9 @@ void setup() {
         Serial.println("┃            Sensors Init Completed!               ┃");
         Serial.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
     }
-
 }
 
 void loop() {
-    if (readSht3xIn()) {
-        Serial.print(lastValueSht3xIn_T); Serial.println(" *C");
-        Serial.print(lastValueSht3xIn_H); Serial.println(" %");
-    }
-
-    if (readSht3xOut()) {
-        Serial.print(lastValueSht3xOut_T); Serial.println(" *C");
-        Serial.print(lastValueSht3xOut_H); Serial.println(" %");
-    }
-
-    delay(1000);
+    scheduleReadSht3x();
+    scheduleWriteCSV();
 }
