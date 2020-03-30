@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "sensors/sht3x.h"
+#include "sensors/bmp388.h"
 
 extern unsigned long lastWriteTimeCSV;
 extern bool displayHeadersCSV;

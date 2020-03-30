@@ -48,8 +48,14 @@ void writeCSV() {
         Serial.print("TIMESTAMP;");
         Serial.print("IN_SHT_T;");
         Serial.print("IN_SHT_H;");
+        Serial.print("IN_BMP_T;");
+        Serial.print("IN_BMP_P;");
         Serial.print("OUT_SHT_T;");
         Serial.print("OUT_SHT_H;");
+        Serial.print("OUT_BMP_T;");
+        Serial.print("OUT_BMP_P;");
+
+
         Serial.println();
 
         displayHeadersCSV = false;
@@ -58,8 +64,12 @@ void writeCSV() {
     Serial.print(currentTimeStamp());                                       Serial.print(";");
     Serial.print(medianFromArray(valuesSht3xIn_T, SHT3X_MEDIAN_ARRAY));     Serial.print(";");
     Serial.print(medianFromArray(valuesSht3xIn_H, SHT3X_MEDIAN_ARRAY));     Serial.print(";");
+    Serial.print(medianFromArray(valuesBmp388In_T, BMP388_MEDIAN_ARRAY));   Serial.print(";");
+    Serial.print(medianFromArray(valuesBmp388In_P, BMP388_MEDIAN_ARRAY));   Serial.print(";");
     Serial.print(medianFromArray(valuesSht3xOut_T, SHT3X_MEDIAN_ARRAY));    Serial.print(";");
     Serial.print(medianFromArray(valuesSht3xOut_H, SHT3X_MEDIAN_ARRAY));    Serial.print(";");
+    Serial.print(medianFromArray(valuesBmp388Out_T, BMP388_MEDIAN_ARRAY));  Serial.print(";");
+    Serial.print(medianFromArray(valuesBmp388Out_P, BMP388_MEDIAN_ARRAY));  Serial.print(";");
     Serial.println();
 }
 

@@ -4,6 +4,7 @@
 #include "config.h"
 #include "utils.h"
 #include "sensors/sht3x.h"
+#include "sensors/bmp388.h"
 
 // #include <SoftwareSerial.h>
 // SoftwareSerial serialSPSIn(IN_UART_TX_SPS30, IN_UART_RX_SPS30, false);
@@ -22,6 +23,8 @@ void setup() {
     Wire.begin(I2C_SDA, I2C_SCL);
     if (!initSht3xIn()) setupFailed = true;
     if (!initSht3xOut()) setupFailed = true;
+    if (!initBmp388In()) setupFailed = true;
+    if (!initBmp388Out()) setupFailed = true;
     
     if (setupFailed) {
         Serial.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
@@ -43,5 +46,6 @@ void setup() {
 
 void loop() {
     scheduleReadSht3x();
+    scheduleReadBmp388();
     scheduleWriteCSV();
 }
