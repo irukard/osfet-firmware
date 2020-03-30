@@ -11,19 +11,19 @@
 #include "SPI.h"
 #include "bmp3_defs.h"
 
-extern DFRobot_BMP388_I2C bmp388In;
+//extern DFRobot_BMP388_I2C bmp388In;
 extern double valuesBmp388In_T[BMP388_MEDIAN_ARRAY];
-extern unsigned int indexBmp388In_T;
+//extern unsigned int indexBmp388In_T;
 extern double valuesBmp388In_P[BMP388_MEDIAN_ARRAY];
-extern unsigned int indexBmp388In_P;
+//extern unsigned int indexBmp388In_P;
 
-extern DFRobot_BMP388_I2C bmp388Out;
+//extern DFRobot_BMP388_I2C bmp388Out;
 extern double valuesBmp388Out_T[BMP388_MEDIAN_ARRAY];
-extern unsigned int indexBmp388Out_T;
+//extern unsigned int indexBmp388Out_T;
 extern double valuesBmp388Out_P[BMP388_MEDIAN_ARRAY];
-extern unsigned int indexBmp388Out_P;
+//extern unsigned int indexBmp388Out_P;
 
-extern unsigned long lastMeasurementTimeBmp388;
+//extern unsigned long lastMeasurementTimeBmp388;
 
 bool initBmp388In();
 bool initBmp388Out();

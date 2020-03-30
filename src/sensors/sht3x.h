@@ -6,20 +6,19 @@
 #include "config.h"
 #include "utils.h"
 
-extern ClosedCube_SHT31D sht3xIn;
+//extern ClosedCube_SHT31D sht3xIn;
 extern double valuesSht3xIn_T[SHT3X_MEDIAN_ARRAY];
-extern unsigned int indexSht3xIn_T;
+//extern unsigned int indexSht3xIn_T;
 extern double valuesSht3xIn_H[SHT3X_MEDIAN_ARRAY];
-extern unsigned int indexSht3xIn_H;
+//extern unsigned int indexSht3xIn_H;
 
-extern ClosedCube_SHT31D sht3xOut;
+//extern ClosedCube_SHT31D sht3xOut;
 extern double valuesSht3xOut_T[SHT3X_MEDIAN_ARRAY];
-extern unsigned int indexSht3xOut_T;
+//extern unsigned int indexSht3xOut_T;
 extern double valuesSht3xOut_H[SHT3X_MEDIAN_ARRAY];
-extern unsigned int indexSht3xOut_H;
+//extern unsigned int indexSht3xOut_H;
 
-
-extern unsigned long lastMeasurementTimeSht3x;
+//extern unsigned long lastMeasurementTimeSht3x;
 
 bool initSht3xIn();
 bool initSht3xOut();
