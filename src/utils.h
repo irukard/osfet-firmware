@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "sensors/sht3x.h"
 #include "sensors/bmp388.h"
+#include "sensors/sps30.h"
 
 extern unsigned long lastWriteTimeCSV;
 extern bool displayHeadersCSV;
