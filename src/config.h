@@ -33,7 +33,7 @@
 
 // Read retries
 #define SHT3X_READ_RETRY        3
-#define BMP388_READ_RETRY       3
+#define BMP388_READ_RETRY       3   // no support yet
 #define SPS30_READ_RETRY        3
 
 // Median array size
