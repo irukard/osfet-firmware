@@ -93,6 +93,8 @@ void scheduleReadSht3x() {
         return;
     }
     
+    lastMeasurementTimeSht3x = millis();    
+
     for (int i=0; i < SHT3X_READ_RETRY; i++) {
         if (readSht3xIn()) {
             break;
@@ -103,6 +105,4 @@ void scheduleReadSht3x() {
             break;
         }
     }
-
-    lastMeasurementTimeSht3x = millis();
 }

@@ -82,9 +82,9 @@ void scheduleWriteCSV() {
         return;
     }
 
-    writeCSV();
-
     lastWriteTimeCSV = millis();
+    writeCSV();
+ 
 }
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓

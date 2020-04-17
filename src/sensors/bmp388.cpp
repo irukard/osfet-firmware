@@ -89,7 +89,9 @@ void scheduleReadBmp388() {
     if (millis() - lastMeasurementTimeBmp388 < BMP388_READ_INTERVAL) {
         return;
     }
-    
+
+    lastMeasurementTimeBmp388 = millis();
+
     for (int i=0; i < BMP388_READ_RETRY; i++) {
         if (readBmp388In()) {
             break;
@@ -101,5 +103,4 @@ void scheduleReadBmp388() {
         }
     }
 
-    lastMeasurementTimeBmp388 = millis();
 }

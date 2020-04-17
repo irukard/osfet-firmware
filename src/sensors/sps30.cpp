@@ -59,6 +59,8 @@ void scheduleReadSps30() {
         return;
     }
     
+    lastMeasurementTimeSps30 = millis();
+
     for (int i=0; i < SPS30_READ_RETRY; i++) {
         if (readSps30In()) {
             break;
@@ -70,5 +72,4 @@ void scheduleReadSps30() {
         }
     }
 
-    lastMeasurementTimeSps30 = millis();
 }
